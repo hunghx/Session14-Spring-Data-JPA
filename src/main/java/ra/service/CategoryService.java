@@ -8,7 +8,9 @@ import ra.model.Category;
 import java.util.List;
 
 public interface CategoryService {
+    Category findById(int id);
     List<FindAllResponse> findAll();
-
     CreateCategoryResponse save(CreateCategoryRequest request);
+    boolean update(Category request);
+    void deleteById(int id);
 }

@@ -16,11 +16,10 @@ public class CategoryRepositoryImp implements CategoryRepository {
 
     @Override
     public List<Category> findAll() {
-//        List<Category> listCategories = entityManager.createQuery("select c from Category c", Category.class)
+//      List<Category> listCategories = entityManager.createQuery("select c from Category c", Category.class)
 //                .getResultList();
         return entityManager.createQuery("select c from Category c", Category.class).getResultList();
     }
-
     @Override
     public Category findById(int catalogId) {
         return entityManager.createQuery("select c from Category c where c.catalogId=:id", Category.class)
@@ -51,6 +50,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
     }
 
     @Override
+    @Transactional
     public boolean delete(int catalogId) {
         try {
             Category catalogDelete = findById(catalogId);
@@ -61,7 +61,6 @@ public class CategoryRepositoryImp implements CategoryRepository {
         }
         return false;
     }
-
     @Override
     public List<Category> findByName(String catalogName) {
         return entityManager.createQuery("select c from Category c where c.catalogName like %:name%",Category.class)

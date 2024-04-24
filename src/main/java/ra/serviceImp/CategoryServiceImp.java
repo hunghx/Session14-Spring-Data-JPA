@@ -2,6 +2,7 @@ package ra.serviceImp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ra.dto.request.CreateCategoryRequest;
 import ra.dto.response.CreateCategoryResponse;
 import ra.dto.response.FindAllResponse;
@@ -42,5 +43,28 @@ public class CategoryServiceImp implements CategoryService {
         return createCategoryMapper.mapperEntityToResponse(category);
     }
 
+    @Override
+    public void deleteById(int id) {
+       Category cat = categoryRepository.findById(id);
+       if (cat == null){
+           throw new RuntimeException("danh mục không tồn tại");
+       }
+        categoryRepository.delete(id);
+    }
 
+    @Override
+    public Category findById(int id) {
+        return categoryRepository.findById(id);
+    }
+
+    @Override
+    public boolean update(Category request) {
+        // ngày tạo ko bị sửa
+        Category old = categoryRepository.findById(request.getCatalogId());
+        old.setStatus(request.isStatus());
+        old.setDescriptions(request.getDescriptions());
+        old.setCatalogName(request.getCatalogName());
+//        request.setCreated(old.getCreated());
+        return categoryRepository.update(old);
+    }
 }

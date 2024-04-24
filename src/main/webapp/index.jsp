@@ -9,5 +9,8 @@
 </h1>
 <br/>
 <a href="hello-servlet">Hello Servlet</a>
+<br>
+<a href="/categoryController/findAll">Danh sách danh mục</a>
+
 </body>
 </html>
