@@ -11,6 +11,7 @@
 <a href="hello-servlet">Hello Servlet</a>
 <br>
 <a href="/categoryController/findAll">Danh sách danh mục</a>
+<a href="/ProductController/findAll">Danh sách san phẩm</a>
 
 </body>
 </html>

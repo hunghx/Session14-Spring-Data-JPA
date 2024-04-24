@@ -12,8 +12,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -26,8 +28,9 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableJpaRepositories("ra.repository")
-@ComponentScan(basePackages = {"ra.controller", "ra.serviceImp", "ra.repository","ra.mapper"})
+@ComponentScan(basePackages = {"ra"})
 public class AppConfig implements WebMvcConfigurer {
+    private final String uploadpath = "C:\\Users\\AD\\Desktop\\ra_jv230913_md4_springmvc_hibernate_dto_crud\\src\\main\\webapp\\uploads\\";
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -49,7 +52,7 @@ public class AppConfig implements WebMvcConfigurer {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("ra.session1orm.model");
+        em.setPackagesToScan("ra.model");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -61,9 +64,9 @@ public class AppConfig implements WebMvcConfigurer {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/hibernate");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/SpringMVC_JPA_DB");
         dataSource.setUsername("root");
-        dataSource.setPassword("18061999");
+        dataSource.setPassword("hung18061999");
         return dataSource;
     }
     // cấu hình transaction
@@ -80,5 +83,19 @@ public class AppConfig implements WebMvcConfigurer {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         properties.setProperty("hibernate.show_sql", "true");
         return properties;
+    }
+    // cấu hình file upload
+    // cấu hình file upload
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver getResolver() {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setMaxUploadSizePerFile(52428800); // 50MB
+        return resolver;
+    }
+    // cấu hình đường dẫn
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:"+uploadpath);
     }
 }

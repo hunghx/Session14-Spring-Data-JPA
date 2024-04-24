@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Category")
@@ -25,4 +26,6 @@ public class Category {
     private Date created;
     @Column(name = "catalog_status")
     private boolean status = true;
+//    @OneToMany(mappedBy = "category")
+//    private List<Product> products;
 }
