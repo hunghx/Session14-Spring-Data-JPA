@@ -26,7 +26,7 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableJpaRepositories("ra.repository")
-@ComponentScan(basePackages = {"ra.controller", "ra.serviceImp", "ra.repositoryImp","ra.mapper"})
+@ComponentScan(basePackages = {"ra.controller", "ra.serviceImp", "ra.repository","ra.mapper"})
 public class AppConfig implements WebMvcConfigurer {
     @Bean
     public ViewResolver viewResolver() {

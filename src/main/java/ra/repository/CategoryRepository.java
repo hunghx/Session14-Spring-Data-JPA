@@ -1,19 +1,11 @@
 package ra.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import ra.model.Category;
 
 import java.util.List;
+@Repository
+public interface CategoryRepository extends JpaRepository<Category,Integer> {
 
-public interface CategoryRepository {
-    List<Category> findAll();
-
-    Category findById(int catalogId);
-
-    Category save(Category category);
-
-    boolean update(Category category);
-
-    boolean delete(int catalogId);
-
-    List<Category> findByName(String catalogName);
 }

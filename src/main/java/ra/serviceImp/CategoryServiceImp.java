@@ -45,26 +45,29 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public void deleteById(int id) {
-       Category cat = categoryRepository.findById(id);
+       Category cat = categoryRepository.findById(id).orElse(null);
        if (cat == null){
            throw new RuntimeException("danh mục không tồn tại");
        }
-        categoryRepository.delete(id);
+        categoryRepository.deleteById(id);
     }
 
     @Override
     public Category findById(int id) {
-        return categoryRepository.findById(id);
+        return categoryRepository.findById(id).orElse(null);
     }
 
     @Override
     public boolean update(Category request) {
         // ngày tạo ko bị sửa
-        Category old = categoryRepository.findById(request.getCatalogId());
+        Category old = findById(request.getCatalogId());
+        if (old==null){
+            throw new RuntimeException("kooong tông tại catalog");
+        }
         old.setStatus(request.isStatus());
         old.setDescriptions(request.getDescriptions());
         old.setCatalogName(request.getCatalogName());
-//        request.setCreated(old.getCreated());
-        return categoryRepository.update(old);
+         categoryRepository.save(old);
+         return true;
     }
 }
